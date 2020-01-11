@@ -23,7 +23,6 @@ READY     := $C474
         .importzp       ST
 
         .include        "zeropage.inc"
-        .include        "vic20.inc"
 
 
 ; ------------------------------------------------------------------------
