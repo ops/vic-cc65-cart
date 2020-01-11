@@ -84,19 +84,6 @@ _exit:  pha                     ; Save the return code on stack
         pla
         sta     ST
 
-
 ; Back to BASIC.
 
         jmp     READY                   ; do "READY." warm start
-
-; ------------------------------------------------------------------------
-
-.segment        "INIT"
-
-zpsave: .res    zpspace
-
-; ------------------------------------------------------------------------
-
-.bss
-
-spsave: .res    1
