@@ -16,7 +16,7 @@ READY     := $C474
         .export         __STARTUP__ : absolute = 1      ; Mark as startup
 
         .import         initlib, donelib
-        .import         zerobss, copydata, push0
+        .import         zerobss, copydata
         .import         callmain
         .import         __STACKSIZE__                   ; Linker generated
         .import         __RAM_START__, __RAM_SIZE__     ; Linker generated
@@ -27,11 +27,11 @@ READY     := $C474
 
 ; ------------------------------------------------------------------------
 
-.segment        "LOADADDR"
+.segment "LOADADDR"
         .export __LOADADDR__: absolute = 1
         .addr   *+2
 
-.segment        "STARTUP"
+.segment "STARTUP"
 
 ; Startup code
 
@@ -42,16 +42,15 @@ READY     := $C474
         .byte   $41,$30,"CBM"
 
 reset:
+        jsr     INITMEM                 ; initialise and test RAM
+        jsr     FRESTOR                 ; restore default I/O vectors
+        jsr     INITVIA                 ; initialise I/O registers
+        jsr     INITSK                  ; initialise hardware
 
-        JSR     INITMEM                 ; initialise and test RAM
-        JSR     FRESTOR                 ; restore default I/O vectors
-        JSR     INITVIA                 ; initialise I/O registers
-        JSR     INITSK                  ; initialise hardware
-
-        JSR     INITVCTRS               ; initialise BASIC vector table
-        JSR     INITBA                  ; initialise BASIC RAM locations
-        JSR     FREMSG                  ; print start up message and initialise memory pointers
-        CLI                             ; enable interrupts
+        jsr     INITVCTRS               ; initialise BASIC vector table
+        jsr     INITBA                  ; initialise BASIC RAM locations
+        jsr     FREMSG                  ; print start up message and initialise memory pointers
+        cli                             ; enable interrupts
 
         jsr     copydata
 
