@@ -1,5 +1,6 @@
 ;
-; Startup code for crt with cc65
+; VIC-20 cart image with CC65 compiler suite
+; Startup code
 ;
 
 INITMEM := $FD8D
@@ -15,15 +16,13 @@ READY     := $C474
         .export         _exit
         .export         __STARTUP__ : absolute = 1      ; Mark as startup
 
-        .import         initlib, donelib
+        .import         initlib, callmain, donelib
         .import         zerobss, copydata
-        .import         callmain
         .import         __STACKSIZE__                   ; Linker generated
         .import         __RAM_START__, __RAM_SIZE__     ; Linker generated
         .importzp       ST
 
         .include        "zeropage.inc"
-
 
 ; ------------------------------------------------------------------------
 

@@ -7,5 +7,5 @@ Compile:
 
 Test with VICE:
 
-     xvic -cartA cart.bin
+       xvic -cartA cart.bin
 
