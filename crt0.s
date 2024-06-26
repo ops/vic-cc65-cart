@@ -1,24 +1,22 @@
 ;
-; VIC-20 cart image with CC65 compiler suite
+; VIC-20 8k cart image with cc65 compiler suite
 ; Startup code
 ;
 
-INITMEM := $FD8D
-FRESTOR := $FD52
-INITVIA := $FDF9
-INITSK  := $E518
+INITMEM   := $FD8D
+FRESTOR   := $FD52
+INITVIA   := $FDF9
+INITSK    := $E518
 
 INITVCTRS := $E45B
 INITBA    := $E3A4
 FREMSG    := $E404
 READY     := $C474
 
-        .export         _exit
         .export         __STARTUP__ : absolute = 1      ; Mark as startup
 
         .import         initlib, callmain, donelib
         .import         zerobss, copydata
-        .import         __STACKSIZE__                   ; Linker generated
         .import         __RAM_START__, __RAM_SIZE__     ; Linker generated
         .importzp       ST
 
@@ -26,21 +24,20 @@ READY     := $C474
 
 ; ------------------------------------------------------------------------
 
-.segment "LOADADDR"
-        .export __LOADADDR__: absolute = 1
-        .addr   *+2
 
-.segment "STARTUP"
+.segment "CARTHDR"
 
-; Startup code
+; Cart header
 
-        .word   reset
-        .word   $FEA9
+        .addr   start                   ; address of cart start code
+        .addr   $FEA9                   ; address of NMI handler
 
         ; Cart signature
-        .byte   $41,$30,"CBM"
+        .byte   "a0CBM"
 
-reset:
+.segment "CODE"
+
+start:
         jsr     INITMEM                 ; initialise and test RAM
         jsr     FRESTOR                 ; restore default I/O vectors
         jsr     INITVIA                 ; initialise I/O registers
