@@ -4,8 +4,8 @@ Simple stub for VIC-20 cart image created with
 
 Compile:
 
-       cl65 -t vic20 -C cart.cfg -o cart.bin cart.c crt0.s
+       cl65 -t vic20 -C cart.cfg -o cart.prg cart.c crt0.s
 
 Test with VICE:
 
-       xvic -cartA cart.bin
+       xvic -cartA cart.prg
