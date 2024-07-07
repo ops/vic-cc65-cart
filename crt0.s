@@ -34,7 +34,7 @@ READY     := $C474
         .addr   $FEA9                   ; address of NMI handler
         .byte   "a0CBM"                 ; cart signature
 
-.segment "CODE"
+.segment "STARTUP"
 
 start:
         jsr     INITMEM                 ; initialise and test RAM
