@@ -18,6 +18,7 @@ READY     := $C474
         .import         initlib, callmain, donelib
         .import         zerobss, copydata
         .import         __RAM_START__, __RAM_SIZE__     ; Linker generated
+        .import         __STACKSIZE__                   ; Linker generated
         .importzp       ST
 
         .include        "zeropage.inc"
@@ -31,9 +32,7 @@ READY     := $C474
 
         .addr   start                   ; address of cart start code
         .addr   $FEA9                   ; address of NMI handler
-
-        ; Cart signature
-        .byte   "a0CBM"
+        .byte   "a0CBM"                 ; cart signature
 
 .segment "CODE"
 
@@ -45,8 +44,8 @@ start:
 
         jsr     INITVCTRS               ; initialise BASIC vector table
         jsr     INITBA                  ; initialise BASIC RAM locations
-        jsr     FREMSG                  ; print start up message and initialise memory pointers
-        cli                             ; enable interrupts
+        jsr     FREMSG                  ; print start up message and
+                                        ; initialise memory pointers
 
         jsr     copydata
 
@@ -56,9 +55,9 @@ start:
 
 ; Set up the stack.
 
-        lda     #<(__RAM_START__ + __RAM_SIZE__)
+        lda     #<(__RAM_START__ + __RAM_SIZE__ + __STACKSIZE__)
         sta     sp
-        lda     #>(__RAM_START__ + __RAM_SIZE__)
+        lda     #>(__RAM_START__ + __RAM_SIZE__ + __STACKSIZE__)
         sta     sp+1            ; Set argument stack ptr
 
 ; Call the module constructors.
