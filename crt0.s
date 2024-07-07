@@ -80,4 +80,4 @@ _exit:  pha                     ; Save the return code on stack
 
 ; Back to BASIC.
 
-        jmp     READY                   ; do "READY." warm start
+        jmp     READY           ; do "READY." warm start
