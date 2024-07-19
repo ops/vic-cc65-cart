@@ -13,6 +13,7 @@ INITBA    := $E3A4
 FREMSG    := $E404
 READY     := $C474
 
+        .export         _exit
         .export         __STARTUP__ : absolute = 1      ; Mark as startup
 
         .import         initlib, callmain, donelib
